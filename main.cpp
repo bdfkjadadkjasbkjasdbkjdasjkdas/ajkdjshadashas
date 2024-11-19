@@ -66,4 +66,5 @@ int main() {
     TransportSystem ts;
     ts.operateRoute(1, "Иванов Иван");
     return 0;
+    cout << "Hello World!";
 }
