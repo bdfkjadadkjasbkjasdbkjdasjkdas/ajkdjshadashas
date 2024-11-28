@@ -9,8 +9,10 @@ private:
     string names;
     int scores;
     int credits;
+    double interestAmount; 
+
 public:
-    People(string names, int scores, int credits) : names(names), scores(scores), credits(credits) {} 
+    People(string names, int scores, int credits) : names(names), scores(scores), credits(credits), interestAmount(0) {} 
     string getNames() {
         return names;
     }
@@ -20,15 +22,54 @@ public:
     int getCredits() {
         return credits;
     }
+    double getInterestAmount() {
+        return interestAmount;
+    }
+    void setNames(string names) {
+        this->names = names;
+    }
+    void setScores(int scores) {
+        this->scores = scores;
+    }
+    void setCredits(int credits) {
+        this->credits = credits;
+        interestAmount = credits * 1.1;
+    }
+    void setCreditX(int creditX) {
+        this->interestAmount = creditX;
+    }
+    void updateCredits(int newCredits) {
+        this->credits = newCredits; 
+        interestAmount = credits * 1.1;
+    }
     void addPeople() {
         cout << "Человек " << names << " добавлен в систему." << endl;
     }
-    void addScore() {
-        scores++; 
+    void addScore(int scores) {
+        this->scores = scores; 
         cout << "Счет " << scores << " добавлен для человека " << names << endl;
     }
-    void addCredit() {
-            cout << "Кредит суммой: " << credits << " добавлен для человека "<< names << endl;
+    void addCredit(int credits) {
+        this->credits = credits * 1.1;
+        cout << "Кредит суммой: " << credits * 1.1 << " добавлен для человека "<< names << endl; 
+    }
+    void CreditXs(int credits, int creditX) {
+        this->credits = credits;
+        creditX = credits * 1.1;
+        this->interestAmount = creditX;
+    }
+    void payCredit(int creditsPay) {
+        if (creditsPay <= credits) {
+            this->credits -= creditsPay; 
+            cout << "Кредит суммой: " << creditsPay << " оплачен для человека " << names << endl;
+        } else {
+            cout << "Недостаточно средств для оплаты кредита." << endl;
+        }
+    }
+    void information() {
+        cout << "Имя: " << getNames() << endl;
+        cout << "Счет: " << getScores() << endl;
+        cout << "Кредит: " << getCredits() << endl;
     }
 };
 
@@ -50,6 +91,7 @@ public:
 
 int main() {
     vector<People> people;
+    vector<int> scores; 
     int choice;
     Student student1("Ivan", 0, 10000);
     student1.information();
@@ -57,22 +99,47 @@ int main() {
     while (true) { 
         cout << "Выберите действие:" << endl;
         cout << "1. Добавить человека" << endl;
-        cout << "2. Добавить кредит" << endl;
-        cout << "3. Выйти" << endl;
-        cout << "4. Посмотреть информацию обо всех людях" << endl;
+        cout << "2. Добавить счет" << endl;
+        cout << "3. Добавить кредит" << endl;
+        cout << "4. Оплатить кредит" << endl;
+        cout << "5. Посмотреть информацию обо всех людях" << endl;
+        cout << "6. Выйти" << endl;
         cin >> choice;
 
         switch (choice) {
             case 1: {
                 string names;
-                int scores = 0;
+                int scores = 0; 
                 cout << "Введите имя человека: ";
                 cin.ignore(); 
-                getline(cin, names);
-                people.push_back(People(names, scores, 0));
+                getline(cin, names);                 
+                people.push_back(People(names, scores, 0));         
+
                 break;
-            }
+            } 
             case 2: {
+                string names;
+                int scores;
+                cout << "Введите имя человека: ";
+                cin.ignore(); 
+                getline(cin, names); 
+                cout << "Введите ваш счет: ";
+                cin >> scores;
+
+                bool found = false;
+                for (int i = 0; i < people.size(); i++) {
+                    if (people[i].getNames() == names) {
+                        people[i].addScore(scores);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    cout << "Человек с таким именем не найден." << endl;
+                }
+                break;
+                }
+            case 3: {
                 string names;
                 int credits;
                 cout << "Введите имя человека: ";
@@ -80,12 +147,11 @@ int main() {
                 getline(cin, names); 
                 cout << "Введите кредит: ";
                 cin >> credits;
-                cout << "Вы взяли кредит суммой: " << credits << " на человека " << names << endl;
-                cout << "Вы должны вернуть кредитс 10 процентами, т.е: " << credits * 0.1 + credits << endl;
+                cout << "Вы взяли кредит суммой: " << credits << " на человека " << names << endl; 
                 bool found = false;
                 for (int i = 0; i < people.size(); i++) {
                     if (people[i].getNames() == names) {
-                        people[i].addCredit();
+                        people[i].addCredit(credits);
                         found = true;
                         break;
                     }
@@ -95,16 +161,37 @@ int main() {
                 }
                 break;
             }
-            case 3: {
-                cout << "Выход из программы." << endl;
-                return 0; 
-            }
             case 4: {
-                cout << "Инфо: " << endl;
-                for (int i = 0; i < people.size(); i++) { 
-                    cout << "Человек " << people[i].getNames() << " имеет счет " << people[i].getScores() << " и кредит " << people[i].getCredits() << endl;
+                string names;
+                int creditsPay;
+                cout << "Введите имя человека: ";
+                cin.ignore();
+                getline(cin, names);
+                cout << "Введите сумму оплаты кредита: ";
+                cin >> creditsPay;
+                bool found = false;
+                for (int i = 0; i < people.size(); i++) {
+                    if (people[i].getNames() == names) {
+                        people[i].payCredit(creditsPay);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    cout << "Человек с таким именем не найден." << endl;
                 }
                 break;
+            }
+            case 5: {
+                cout << "Информация обо всех людях:" << endl;
+                for (int i = 0; i < people.size(); i++) {
+                    people[i].information(); 
+                }
+                break;
+            }
+            case 6: {
+                cout << "Выход из программы." << endl;
+                return 0; 
             }
             default: {
                 cout << "Неверный выбор. Попробуйте еще раз." << endl;
