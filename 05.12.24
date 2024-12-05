@@ -39,7 +39,6 @@ void addScore(vector<People>& people) {
     }
 }
 
-
 void addCredit(vector<People>& people) {
     string names;
     int credits;
@@ -61,7 +60,6 @@ void addCredit(vector<People>& people) {
         cout << "Человек с таким именем не найден." << endl;
     }
 }
-
 
 void payCredit(vector<People>& people) {
     string names;
@@ -85,7 +83,7 @@ void payCredit(vector<People>& people) {
 }
 
 
-void showPeopleInfo(const vector<People>& people) {
+void showPeopleInfo(vector<People>& people) {
     cout << "Информация обо всех людях:" << endl;
     for (int i = 0; i < people.size(); i++) {
         people[i].information();
