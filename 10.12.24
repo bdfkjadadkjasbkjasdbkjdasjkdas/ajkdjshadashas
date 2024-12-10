@@ -2,67 +2,79 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include "User.h"
+#include "People.h"
 #include "Student.h"
 
 using namespace std;
 
-struct User {
-    string name;
-    int scores;
-    int credits;
-
-    static User load(ifstream& in) {
-        User user;
-        in >> user.name >> user.scores >> user.credits;
-        return user;
+void loadPeopleData(const string& filename, vector<People>& people) {
+    ifstream infile(filename);
+    if (infile.is_open()) {
+        string name;
+        int score, credit;
+        while (infile >> name >> score >> credit) {
+            people.push_back(People(name, score, credit));
+        }
+        infile.close();
     }
-    void save(ofstream& out) const {
-        out << name << " " << scores << " " << credits << endl;
-    }
-};
-
-vector<User> loadUsers(string& filename) {
-    vector<User> users;
-    ifstream file(filename);
-    while (!file.eof()) {
-        User user = User::load(file);
-        users.push_back(user);
-    }
-    file.close();
-    return users;
 }
 
-void addUser(vector<User>& users) {
+void savePeopleData(const string& filename, vector<People>& people) {
+    ofstream outfile(filename);
+    if (outfile.is_open()) {
+        for (auto& person : people) {
+            outfile << person.getNames() << " " << person.getScores() << " " << person.getCredits() << endl;
+        }
+        outfile.close();
+    }
+}
+void loadScoresData(const string& filename, vector<int>& scores) {
+    ifstream infile(filename);
+    if (infile.is_open()) {
+        string name;
+        int score;
+        while (infile >> name >> score) {
+            scores.push_back(score);
+        }
+        infile.close();
+    }
+}
+
+void saveScoresData(const string& filename, const vector<int>& scores) {
+    ofstream outfile(filename);
+    if (outfile.is_open()) {
+        for (const auto& score : scores) {
+            outfile << score << endl;
+        }
+        outfile.close();
+    }
+}
+
+
+void addPerson(vector<People>& people) {
     string names;
     int scores = 0;
     cout << "Введите имя человека: ";
     cin.ignore();
     getline(cin, names);
-    users.push_back(User{ name, scores, credits });
-    cout << "User " << name << " added.\n";
+    people.push_back(People(names, scores, 0));
 }
 
-void saveUsers(const string& filename, const vector<User>& users) {
-    ofstream file(filename);
-    for (const User& user : users) {
-        user.save(file);
-    }
-    file.close();
-}
 
-void addScore(const vector<User>& users, int& scores) {
+void addScore(vector<People>& people) {
     string names;
     int scores;
-    bool found = true;
     cout << "Введите имя человека: ";
     cin.ignore();
     getline(cin, names);
-    for (const User& user : users) {
-        if (user.name == names) {
-            cout << "Введите ваш счет: ";
-            cin >> scores;
-            found = false;
+    cout << "Введите ваш счет: ";
+    cin >> scores;
+
+    bool found = false;
+    for (int i = 0; i < people.size(); i++) {
+        if (people[i].getNames() == names) {
+            people[i].addScore(scores);
+            found = true;
             break;
         }
     }
@@ -72,18 +84,19 @@ void addScore(const vector<User>& users, int& scores) {
 }
 
 
-void addCredit(const vector<User>& users, int& credits) {
+void addCredit(vector<People>& people) {
     string names;
     int credits;
-    bool found = true;
     cout << "Введите имя человека: ";
     cin.ignore();
     getline(cin, names);
-    for (const User& user : users) {
-        if (user.name == names) {
-            cout << "Введите кредит: ";
-            cin >> credits;
-            found = false;
+    cout << "Введите кредит: ";
+    cin >> credits;
+    bool found = false;
+    for (int i = 0; i < people.size(); i++) {
+        if (people[i].getNames() == names) {
+            people[i].addCredit(credits);
+            found = true;
             break;
         }
     }
@@ -93,18 +106,19 @@ void addCredit(const vector<User>& users, int& credits) {
 }
 
 
-void payCredit(const vector<User>& users, int& credits) {
+void payCredit(vector<People>& people) {
     string names;
     int creditsPay;
-    bool found = true;
     cout << "Введите имя человека: ";
     cin.ignore();
     getline(cin, names);
-    for (const User& user : users) {
-        if (user.name == names) {
-            cout << "Введите сумму оплаты кредита: ";
-            cin >> creditsPay;
-            found = false;
+    cout << "Введите сумму оплаты кредита: ";
+    cin >> creditsPay;
+    bool found = false;
+    for (int i = 0; i < people.size(); i++) {
+        if (people[i].getNames() == names) {
+            people[i].payCredit(creditsPay);
+            found = true;
             break;
         }
     }
@@ -122,11 +136,13 @@ void showPeopleInfo(vector<People>& people) {
 }
 
 int main() {
-    string filename = "users.txt";
-    vector<User> users = loadUsers(filename);
     setlocale(LC_ALL, "RUS");
     vector<People> people;
     vector<int> scores;
+
+    loadPeopleData("people_data.txt", people);
+    loadScoresData("scores_data.txt", scores);
+
     int choice;
     Student student1("Ivan", 0, 10000);
     student1.information();
@@ -144,16 +160,16 @@ int main() {
 
         switch (choice) {
         case 1:
-            addUser(users);
+            addPerson(people);
             break;
         case 2:
-            addScore(users, scores);
+            addScore(people);
             break;
         case 3:
-            addCredit(users, credits);
+            addCredit(people);
             break;
         case 4:
-            payCredit(users, credits);
+            payCredit(people);
             break;
         case 5:
             showPeopleInfo(people);
@@ -167,5 +183,7 @@ int main() {
             break;
         }
     }
+    savePeopleData("people_data.txt", people);
+    saveScoresData("scores_data.txt", scores);
     return 0;
 }
