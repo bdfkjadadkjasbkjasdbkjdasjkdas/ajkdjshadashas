@@ -1,0 +1,171 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+#include "User.h"
+#include "Student.h"
+
+using namespace std;
+
+struct User {
+    string name;
+    int scores;
+    int credits;
+
+    static User load(ifstream& in) {
+        User user;
+        in >> user.name >> user.scores >> user.credits;
+        return user;
+    }
+    void save(ofstream& out) const {
+        out << name << " " << scores << " " << credits << endl;
+    }
+};
+
+vector<User> loadUsers(string& filename) {
+    vector<User> users;
+    ifstream file(filename);
+    while (!file.eof()) {
+        User user = User::load(file);
+        users.push_back(user);
+    }
+    file.close();
+    return users;
+}
+
+void addUser(vector<User>& users) {
+    string names;
+    int scores = 0;
+    cout << "Введите имя человека: ";
+    cin.ignore();
+    getline(cin, names);
+    users.push_back(User{ name, scores, credits });
+    cout << "User " << name << " added.\n";
+}
+
+void saveUsers(const string& filename, const vector<User>& users) {
+    ofstream file(filename);
+    for (const User& user : users) {
+        user.save(file);
+    }
+    file.close();
+}
+
+void addScore(const vector<User>& users, int& scores) {
+    string names;
+    int scores;
+    bool found = true;
+    cout << "Введите имя человека: ";
+    cin.ignore();
+    getline(cin, names);
+    for (const User& user : users) {
+        if (user.name == names) {
+            cout << "Введите ваш счет: ";
+            cin >> scores;
+            found = false;
+            break;
+        }
+    }
+    if (!found) {
+        cout << "Человек с таким именем не найден." << endl;
+    }
+}
+
+
+void addCredit(const vector<User>& users, int& credits) {
+    string names;
+    int credits;
+    bool found = true;
+    cout << "Введите имя человека: ";
+    cin.ignore();
+    getline(cin, names);
+    for (const User& user : users) {
+        if (user.name == names) {
+            cout << "Введите кредит: ";
+            cin >> credits;
+            found = false;
+            break;
+        }
+    }
+    if (!found) {
+        cout << "Человек с таким именем не найден." << endl;
+    }
+}
+
+
+void payCredit(const vector<User>& users, int& credits) {
+    string names;
+    int creditsPay;
+    bool found = true;
+    cout << "Введите имя человека: ";
+    cin.ignore();
+    getline(cin, names);
+    for (const User& user : users) {
+        if (user.name == names) {
+            cout << "Введите сумму оплаты кредита: ";
+            cin >> creditsPay;
+            found = false;
+            break;
+        }
+    }
+    if (!found) {
+        cout << "Человек с таким именем не найден." << endl;
+    }
+}
+
+
+void showPeopleInfo(vector<People>& people) {
+    cout << "Информация обо всех людях:" << endl;
+    for (int i = 0; i < people.size(); i++) {
+        people[i].information();
+    }
+}
+
+int main() {
+    string filename = "users.txt";
+    vector<User> users = loadUsers(filename);
+    setlocale(LC_ALL, "RUS");
+    vector<People> people;
+    vector<int> scores;
+    int choice;
+    Student student1("Ivan", 0, 10000);
+    student1.information();
+    bool a = true;
+
+    while (a) {
+        cout << "Выберите действие:" << endl;
+        cout << "1. Добавить человека" << endl;
+        cout << "2. Добавить счет" << endl;
+        cout << "3. Добавить кредит" << endl;
+        cout << "4. Оплатить кредит" << endl;
+        cout << "5. Посмотреть информацию обо всех людях" << endl;
+        cout << "6. Выйти" << endl;
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            addUser(users);
+            break;
+        case 2:
+            addScore(users, scores);
+            break;
+        case 3:
+            addCredit(users, credits);
+            break;
+        case 4:
+            payCredit(users, credits);
+            break;
+        case 5:
+            showPeopleInfo(people);
+            break;
+        case 6:
+            cout << "Выход из программы." << endl;
+            a = false;
+            break;
+        default:
+            cout << "Неверный выбор. Попробуйте еще раз." << endl;
+            break;
+        }
+    }
+    return 0;
+}
