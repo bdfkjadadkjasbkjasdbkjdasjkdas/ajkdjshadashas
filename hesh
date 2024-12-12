@@ -28,9 +28,9 @@ string hashPassword(const string& password) {
 void savePeopleData(const string& filename, vector<People>& people) {
     ofstream outfile(filename);
     if (outfile.is_open()) {
-        for (auto& person : people) {
-            outfile << hashPassword(person.getNames()) << " " << hashPassword(to_string(person.getScores())) << " " << person.getCredits() << endl;
-        }
+        for (auto& person : people) {              
+            outfile << hashPassword(person.getNames()) << " " << hashPassword(to_string(person.getScores())) << " " << person.getCredits() << endl;       
+        }        
         outfile.close();
     }
 }
@@ -141,24 +141,24 @@ void showPeopleInfo(vector<People>& people) {
     }
 }
 
-bool login(const string& username, const string& password) {
-    ifstream infile("hashes.txt");
-    if (infile.is_open()) {
-        string line;
-        while (getline(infile, line)) {
-            stringstream ss(line);
-            string storedUsername, storedHash;
-            getline(ss, storedUsername, ' ');
-            getline(ss, storedHash, ' ');
-            if (storedUsername == username && storedHash == hashPassword(password)) {
-                infile.close();
-                return true;
-            }
-        }
-        infile.close();
-    }
-    return false;
-}
+// bool login(const string& username, const string& password) {
+//     ifstream infile("hashes.txt");
+//     if (infile.is_open()) {
+//         string line;
+//         while (getline(infile, line)) {
+//             stringstream ss(line);
+//             string storedUsername, storedHash;
+//             getline(ss, storedUsername, ' ');
+//             getline(ss, storedHash, ' ');
+//             if (storedUsername == username && storedHash == hashPassword(password)) {
+//                 infile.close();
+//                 return true;
+//             }
+//         }
+//         infile.close();
+//     }
+//     return false;
+// }
 
 int main() {
     setlocale(LC_ALL, "RUS");
