@@ -16,5 +16,4 @@ public:
     string getLogin();
     string getPassword();
 };
-А
 #endif // !PERSON_H
