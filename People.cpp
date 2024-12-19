@@ -36,15 +36,15 @@ void People::updateCredits(int newCredits) {
     interestAmount = credits * 1.1;
 }
 void People::addPeople() {
-    cout << "×åëîâåê " << names << " äîáàâëåí â ñèñòåìó." << endl;
+    cout << "Ð§ÐµÐ»Ð¾Ð²ÐµÐº " << names << " Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½ Ð² ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ." << endl;
 }
 void People::addScore(int scores) {
     this->scores = scores;
-    cout << "Ñ÷åò " << scores << " äîáàâëåí äëÿ ÷åëîâåêà " << names << endl;
+    cout << "Ð¡Ñ‡ÐµÑ‚ " << scores << " Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½ Ð´Ð»Ñ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° " << names << endl;
 }
 void People::addCredit(int credits) {
     this->credits = credits * 1.1;
-    cout << "Êðåäèò ñóììîé: " << credits * 1.1 << " äîáàâëåí äëÿ ÷åëîâåêà " << names << endl;
+    cout << "ÐšÑ€ÐµÐ´Ð¸Ñ‚ ÑÑƒÐ¼Ð¼Ð¾Ð¹: " << credits * 1.1 << " Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½ Ð´Ð»Ñ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° " << names << endl;
 }
 void People::CreditXs(int credits, int creditX) {
     this->credits = credits;
@@ -54,14 +54,17 @@ void People::CreditXs(int credits, int creditX) {
 void People::payCredit(int creditsPay) {
     if (creditsPay <= credits) {
         this->credits -= creditsPay;
-        cout << "Êðåäèò ñóììîé: " << creditsPay << " îïëà÷åí äëÿ ÷åëîâåêà " << names << endl;
+        cout << "ÐšÑ€ÐµÐ´Ð¸Ñ‚ ÑÑƒÐ¼Ð¼Ð¾Ð¹: " << creditsPay << " Ð¾Ð¿Ð»Ð°Ñ‡ÐµÐ½ Ð´Ð»Ñ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° " << names << endl;
     }
     else {
-        cout << "Íåäîñòàòî÷íî ñðåäñòâ äëÿ îïëàòû êðåäèòà." << endl;
+        cout << "ÐžÑˆÐ¸Ð±ÐºÐ°, ÑÑƒÐ¼Ð¼Ð° ÐºÑ€ÐµÐ´Ð¸Ñ‚Ð° Ð¼ÐµÐ½ÑŒÑˆÐµ ÑÑƒÐ¼Ð¼Ñ‹ Ð¾Ð¿Ð»Ð°Ñ‚Ñ‹" << endl;
+    }
+    if (this->credits == 0) {
+        cout << "ÐšÑ€ÐµÐ´Ð¸Ñ‚ Ð´Ð»Ñ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° " << names << " Ð¾Ð¿Ð»Ð°Ñ‡ÐµÐ½!" << endl;
     }
 }
 void People::information() {
-    cout << "Èìÿ: " << getNames() << endl;
-    cout << "Ñ÷åò: " << getScores() << endl;
-    cout << "Êðåäèò: " << getCredits() << endl;
+    cout << "Ð˜Ð¼Ñ: " << getNames() << endl;
+    cout << "Ð¡Ñ‡ÐµÑ‚: " << getScores() << endl;
+    cout << "ÐšÑ€ÐµÐ´Ð¸Ñ‚: " << getCredits() << endl;
 }

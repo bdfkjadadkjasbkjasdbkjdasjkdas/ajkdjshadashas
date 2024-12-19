@@ -7,13 +7,14 @@ using namespace std;
 
 Student::Student(string names, int scores, int credits) : People(names, scores, credits) {}
 void Student::information() {
-    cout << "Èìÿ: " << getNames() << endl;
-    cout << "Ñ÷åò: " << getScores() << endl;
-    cout << "Êðåäèò: " << getCredits() << endl;
+    cout << "ÐŸÑ€Ð¸Ð¼ÐµÑ€ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸ Ð¾ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ðµ:" << endl;
+    cout << "Ð˜Ð¼Ñ: " << getNames() << endl;
+    cout << "Ð¡Ñ‡ÐµÑ‚: " << getScores() << endl;
+    cout << "ÐšÑ€ÐµÐ´Ð¸Ñ‚: " << getCredits() << endl;
 }
 void Student::information(string names, int scores, int credits) {
-    cout << "Èíôîðìàöèÿ î ñòóäåíòå: " << endl;
-    cout << "Èìÿ: " << names << endl;
-    cout << "Ñ÷åò: " << scores << endl;
-    cout << "Êðåäèò: " << credits << endl;
+    cout << "Ð˜Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¾ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ðµ: " << endl;
+    cout << "Ð˜Ð¼Ñ: " << names << endl;
+    cout << "Ð¡Ñ‡ÐµÑ‚: " << scores << endl;
+    cout << "ÐšÑ€ÐµÐ´Ð¸Ñ‚: " << credits << endl;
 }

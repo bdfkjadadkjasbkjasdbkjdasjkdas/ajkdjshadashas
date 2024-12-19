@@ -8,7 +8,7 @@ class Person {
 private:
     string login;
     string password;
-public: 
+public:
     Person(string login, string password);
 
     void setLogin(string login);

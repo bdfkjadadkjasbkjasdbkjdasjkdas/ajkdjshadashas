@@ -7,7 +7,7 @@ using namespace std;
 
 class Student : public People {
 public:
-    Student(string names, int scores, int credits); 
+    Student(string names, int scores, int credits);
     void information();
     void information(string names, int scores, int credits);
 };

@@ -10,7 +10,7 @@ private:
     int scores;
     int credits;
     double interestAmount;
-public: 
+public:
     People(string names, int scores, int credits);
 
     void setNames(string names);
